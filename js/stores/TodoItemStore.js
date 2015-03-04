@@ -55,7 +55,6 @@ var TodoItemStore = _.extend({}, EventEmitter.prototype, {
 // Once the store has done it's changes we emit a 'change' event to the subscribers of this store. 
 AppDispatcher.register(function(payload) {
 	var action = payload.action;
-	var text;
 
 	switch (action.actionType) {
 		case TodoConstants.TODO_ITEM_ADD:
