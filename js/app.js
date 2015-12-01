@@ -1,8 +1,6 @@
-var React = require('react');
-var TodoListApp = require('./components/TodoListApp')
+const React = require('react');
+const ReactDOM = require('react-dom');
+const TodoListApp = require('./components/TodoListApp');
 
 // Render TodoList
-React.render(
-  <TodoListApp/>,
-  document.getElementById('todo-app')
-);
+ReactDOM.render(<TodoListApp />, document.getElementById('todo-app'));

@@ -1,12 +1,12 @@
-var Dispatcher = require('flux').Dispatcher;
+const Dispatcher = require('flux').Dispatcher;
 
-var AppDispatcher = new Dispatcher();
+const AppDispatcher = new Dispatcher();
 
-AppDispatcher.handleAction = function(action) {
+AppDispatcher.handleAction = function handleAction(action) {
   this.dispatch({
     source: 'VIEW_ACTION',
-    action: action
+    action: action,
   });
-}
+};
 
 module.exports = AppDispatcher;

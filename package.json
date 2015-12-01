@@ -4,15 +4,21 @@
   "description": "Simple todo list app with react and flux",
   "main": "js/app.js",
   "dependencies": {
-    "flux": "^2.0.0",
-    "react": "^0.12.0",
-    "underscore": "^1.7.0"
+    "babel-preset-react": "^6.1.18",
+    "babelify": "^7.2.0",
+    "browserify": "^12.0.1",
+    "flux": "^2.1.1",
+    "keymirror": "^0.1.1",
+    "lodash": "^3.10.1",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
   },
   "devDependencies": {
-    "babelify": "^5.0.3",
-    "browserify": "~6.2.0",
-    "react": "^0.12.0",
-    "watchify": "~2.1.0"
+    "babel-eslint": "^5.0.0-beta4",
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^1.0.2",
+    "eslint-plugin-react": "^3.11.2",
+    "watchify": "^3.6.1"
   },
   "scripts": {
     "start": "watchify -o js/bundle.js -v -d .",
@@ -21,7 +27,16 @@
   "author": "Anders N. Slinde",
   "browserify": {
     "transform": [
-      "babelify"
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015",
+            "stage-0",
+            "react"
+          ]
+        }
+      ]
     ]
   }
 }
