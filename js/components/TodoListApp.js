@@ -1,40 +1,49 @@
-const React = require('react');
-const TodoItemList = require('./TodoItemList');
-const TodoItemForm = require('./TodoItemForm');
-const TodoItemStore = require('../stores/TodoItemStore');
+import React, { Component, PropTypes } from'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import TodoItemList from './TodoItemList';
+import TodoItemForm from './TodoItemForm';
+import { connect } from 'react-redux';
+import { addTodo, toggleTodo, removeTodo } from '../actions';
 
-const getItemState = () => {
-  const items = TodoItemStore.getTodoItems();
-  const totalItems = TodoItemStore.getTodoItemCount();
-  const doneItems = TodoItemStore.getDoneItemCount();
-  return {
-    items: items,
-    totalItems: totalItems,
-    doneItems: doneItems,
-  };
-};
-
-const TodoListApp = React.createClass({
-  getInitialState() {
-    return getItemState();
-  },
-  // This method is invoked immediatly after the intiail rendering has occured.
-  componentDidMount() {
-    TodoItemStore.addChangeListener(this._onChange);
-  },
-  // When the store pushes a change event to us we get the new state from the store.
-  // setState forces a rerender of this component and its children.
-  _onChange() {
-    this.setState(getItemState());
-  },
+class TodoListApp extends Component {
   render() {
+    const { dispatch, todos, total, completed } = this.props;
     return (
       <div className="flux-todo-app">
-        <TodoItemList items={this.state.items} done={this.state.doneItems} total={this.state.totalItems}/>
-        <TodoItemForm />
+        <TodoItemList
+          total={total}
+          completed={completed}
+          items={todos}
+          onToggleClick={index =>
+            dispatch(toggleTodo(index))
+          }
+          onRemoveClick={index =>
+            dispatch(removeTodo(index))} />
+        <TodoItemForm
+          onAddClick={text =>
+            dispatch(addTodo(text))
+          } />
       </div>
     );
-  },
-});
+  }
+}
 
-module.exports = TodoListApp;
+TodoListApp.propTypes = {
+  todos: ImmutablePropTypes.listOf(PropTypes.shape({
+    content: PropTypes.string.isRequired,
+    done: PropTypes.bool.isRequired,
+  })),
+  total: PropTypes.number.isRequired,
+  completed: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
+function select(state) {
+  return {
+    todos: state.todos,
+    total: state.todos.size,
+    completed: state.todos.count((item) => { return item.done; }),
+  };
+}
+
+export default connect(select)(TodoListApp);

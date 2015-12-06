@@ -3,8 +3,7 @@
 {
   "extends": "airbnb",
   "rules": {
-     // Problematic with Material-UI
-    "react/jsx-boolean-value": 0,
-    "no-console": 0,
+    "no-console": 1,
+    "new-cap": [2, {"capIsNewExceptions": ["List"]}]
   }
 }

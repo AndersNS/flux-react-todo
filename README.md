@@ -1,4 +1,4 @@
-This is just a simple app to show how you can the flux architecture with reactJS works. Code is pretty heavily commented so shouldn't be much of a problem to understand.
+Simple app to show react + redux + immutable. You can also compare to flux by switching to the master branch.
 
 # To run this app
 

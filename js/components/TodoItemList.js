@@ -1,12 +1,20 @@
-const React = require('react');
-const TodoItem = require('./TodoItem');
+import React from 'react';
+import TodoItem from './TodoItem';
 
-const TodoItemList = ({items, total, done}) => (
+const TodoItemList = ({items, total, completed, onToggleClick, onRemoveClick }) => (
       <div className="todo-list-items">
-        Total:{total}, Completed:{done}
+        Total:{total}, Completed:{completed}
         <ul>
           {
-            Object.keys(items).map((item) => {return <TodoItem key={item} itemId={item} item={items[item]} />; })
+            items.map((item, key) => {
+              return (
+                <TodoItem
+                  key={key}
+                  itemId={key}
+                  item={item}
+                  onToggleClick={() => onToggleClick(key)}
+                  onRemoveClick={() => onRemoveClick(key)} />);
+            })
           }
         </ul>
       </div>

@@ -1,41 +1,33 @@
-const React = require('react');
-const TodoListActions = require('../actions/TodoListActions');
+import React, { Component, PropTypes } from 'react';
 
-const TodoItem = React.createClass({
-  propTypes: {
-    itemId: React.PropTypes.string.isRequired,
-    item: React.PropTypes.object.isRequired,
-  },
+export default class TodoItem extends Component {
   // Returns the line through style if the item is done
   lineThrough(done) {
     if (done) {
       return {textDecoration: 'line-through'};
     }
     return {};
-  },
-  removeFromList(id) {
-    // Tells our dispatcher we want this item removed from the list
-    TodoListActions.removeFromList(id);
-  },
-  itemChecked(id) {
-    // Tells our dispatcher to toggle the done attribute on this item.
-    TodoListActions.markItemDone(id);
-  },
+  }
+
   render() {
     const self = this;
     const { item, itemId } = this.props;
-    const lineThrough = self.lineThrough(item.Done);
-
+    const lineThrough = self.lineThrough(item.done);
     return (
       <li key={itemId}>
-        <input type="checkbox" ref="done" checked={item.Done} onChange={self.itemChecked.bind(self, itemId)}/>
+        <input type="checkbox" ref="done" checked={item.done} onChange={this.props.onToggleClick}/>
         <span style={lineThrough}>
-          { item.Content }
+          { item.content }
         </span>
-        <button onClick={self.removeFromList.bind(self, itemId)} value="Remove">Remove</button>
+        <button onClick={this.props.onRemoveClick} value="Remove">Remove</button>
       </li>
     );
-  },
-});
+  }
+}
 
-module.exports = TodoItem;
+TodoItem.propTypes = {
+  itemId: PropTypes.number.isRequired,
+  item: PropTypes.object.isRequired,
+  onToggleClick: PropTypes.func.isRequired,
+  onRemoveClick: PropTypes.func.isRequired,
+};

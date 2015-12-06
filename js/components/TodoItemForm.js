@@ -1,28 +1,24 @@
-const React = require('react');
-const TodoListActions = require('../actions/TodoListActions');
+import React, { Component, PropTypes } from 'react';
 
-const TodoItemForm = React.createClass({
+export default class TodoItemForm extends Component {
   handleSubmit(e) {
     // Prevent the default behaviour of the submit.
     e.preventDefault();
-    // Get the content from the DOM
     const content = this.refs.content.value.trim();
-    if (!content) {
-      return;
-    }
-    // Push the new todo item onto our dispatcher.
-    TodoListActions.addToList(content);
-    // Empty out the input, ready for new input to be added.
+    this.props.onAddClick(content);
     this.refs.content.value = '';
-  },
+  }
+
   render() {
     return (
-      <form className="todoItemForm" onSubmit={this.handleSubmit}>
+      <form className="todoItemForm" onSubmit={(e) => this.handleSubmit(e)}>
         <input type="text" ref="content" placeholder="Enter a new item" />
         <input type="submit" value="Add" />
       </form>
     );
-  },
-});
+  }
+}
 
-module.exports = TodoItemForm;
+TodoItemForm.propTypes = {
+  onAddClick: PropTypes.func.isRequired,
+};
